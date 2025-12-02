@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estadísticas y Clasificación F1</title>
+    <title>Clasificación F1 - Por Año</title>
     
     <link rel="stylesheet" href="styles.css"> 
     
@@ -11,17 +11,22 @@
 <body>
 
     <header>
-        <h1>🏆 Clasificación F1</h1>
+        <h1>🏆 Clasificación F1 - Por Pilotos</h1>
     </header>
 
     <div class="container">
         
-        <div id="season-buttons-container" class="button-group"></div>
+        <div id="season-buttons-container" class="button-group">
+            </div>
 
-        <div id="stat-buttons-container" class="button-group" style="margin-top: -10px;"></div>
-
+        <div id="stat-buttons-container" class="button-group" style="margin-top: 10px;">
+            <a href="wdc-pilots.html" class="stat-btn season-btn">🏆 Pilotos con más WDC</a>
+            <a href="wdc-teams.html" class="stat-btn season-btn">🏭 Equipos con más WCC</a>
+            <a href="team-pilots.html" class="stat-btn season-btn">🏎️ Equipos y Pilotos por Año</a>
+        </div>
+        
         <div class="current-display">
-            <h2><span id="current-season">2025</span></h2>
+            <h2>Clasificación de Pilotos - Temporada <span id="current-season"></span></h2>
         </div>
 
         <table class="classification-table">
@@ -39,7 +44,8 @@
         
     </div>
 
-    <script src="script.js"></script> 
+    <script src="data.js"></script> 
+    <script src="index-script.js"></script> 
     
 </body>
 </html>

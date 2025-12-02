@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas F1 - Pilotos WDC</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    
+</head>
+<body>
+
+    <header>
+        <h1>🏆 Pilotos con más Títulos (WDC)</h1>
+    </header>
+
+    <div class="container">
+        
+        <div class="button-group" id="main-navigation">
+            <a href="index.html" class="back-btn season-btn">◀ Volver a Clasificación por Año</a>
+        </div>
+
+        <div class="current-display">
+            <h2>Ránking Histórico</h2>
+        </div>
+
+        <table class="classification-table">
+            <thead>
+                <tr>
+                    <th>Pos</th>
+                    <th>Piloto</th>
+                    <th>Títulos</th>
+                    <th>Años Ganados</th>
+                </tr>
+            </thead>
+            <tbody id="wdc-pilots-body">
+                </tbody>
+        </table>
+        
+    </div>
+
+    <script src="data.js"></script> 
+    <script src="wdc-pilots-script.js"></script> 
+    
+</body>
+</html>

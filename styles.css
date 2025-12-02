@@ -87,6 +87,26 @@ h1 {
     transform: scale(1.05);
 }
 
+/* ESTILO DEL BOTÓN DE ATRÁS */
+#back-button-container {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.back-btn {
+    background-color: #333 !important;
+    border-color: #555 !important;
+    color: #fff !important;
+    margin-bottom: 10px;
+    padding: 8px 15px;
+}
+
+.back-btn:hover {
+    background-color: #444 !important;
+}
+/* FIN ESTILO DEL BOTÓN DE ATRÁS */
+
+
 /* 5. Display de Temporada Actual */
 .current-display {
     text-align: center;

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipos F1 - Pilotos por Año</title>
+    
+    <link rel="stylesheet" href="styles.css"> 
+    
+</head>
+<body>
+
+    <header>
+        <h1>🏎️ Equipos y Pilotos por Año</h1>
+    </header>
+
+    <div class="container">
+        
+        <div class="button-group" id="main-navigation">
+            <a href="index.html" class="back-btn season-btn">◀ Volver a Clasificación de Pilotos</a>
+        </div>
+
+        <div id="secondary-selector" class="button-group">
+            </div>
+
+        <div class="current-display">
+            <h2>Alineación de Equipos - Temporada <span id="current-season"></span></h2>
+        </div>
+
+        <table class="classification-table">
+            <thead>
+                <tr>
+                    <th>Equipo</th>
+                    <th>Piloto 1</th>
+                    <th>Piloto 2</th>
+                    <th>Piloto(s) Adicional(es)</th>
+                </tr>
+            </thead>
+            <tbody id="team-pilots-body">
+                </tbody>
+        </table>
+        
+    </div>
+
+    <script src="data.js"></script> 
+    <script src="team-pilots-script.js"></script> 
+    
+</body>
+</html>

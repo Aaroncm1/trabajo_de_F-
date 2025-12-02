@@ -1,6 +1,6 @@
 /**
  * script.js - Clasificación F1 y Estadísticas Históricas
- * VERSIÓN 2.0: Módulos de Vistas y Estructura Mejorada.
+ * VERSIÓN 3.0: Lógica de Vistas Reforzada y Botón de Navegación "Atrás".
  */
 
 // ---------------------------------------------------------------------
@@ -70,9 +70,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentSeasonDisplay = document.getElementById('current-season');
     const pilotsClassificationBody = document.getElementById('pilots-classification-body');
     const classificationTableHeader = document.querySelector('.classification-table tr');
+    const backButtonContainer = document.getElementById('back-button-container'); // Nuevo contenedor
     
     // Almacenamiento de la vista actual
     let currentView = 'classification'; 
+    // Guardamos la última vista de clasificación para el botón 'Atrás'
+    let lastClassificationYear = END_YEAR; 
+
+    /**
+     * Crea un botón de "Atrás" en vistas secundarias.
+     * @param {string} targetView - Función a llamar al hacer clic (ej: loadClassification).
+     * @param {any} targetParam - Parámetro a pasar (ej: año).
+     */
+    function createBackButton(targetView, targetParam) {
+        backButtonContainer.innerHTML = '';
+        const backButton = document.createElement('button');
+        backButton.className = 'back-btn season-btn active';
+        backButton.textContent = '◀ Volver a Clasificación';
+        backButton.addEventListener('click', () => {
+            // Llamamos a la función de clasificación con el último año guardado
+            loadClassification(lastClassificationYear);
+        });
+        backButtonContainer.appendChild(backButton);
+    }
 
     /**
      * Limpia la tabla y el selector secundario.
@@ -82,11 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
         pilotsClassificationBody.innerHTML = '';
         currentSeasonDisplay.textContent = '---';
         
-        // Elimina cualquier selector de año dinámico si existe
+        // Elimina cualquier selector de año dinámico y el botón de atrás
         document.getElementById('secondary-selector')?.remove();
+        backButtonContainer.innerHTML = ''; // Limpia el botón de atrás
         
         // Desactiva todos los botones (temporada y estadísticas)
-        document.querySelectorAll('.season-btn, .stat-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.season-btn, .stat-btn, .back-btn').forEach(btn => btn.classList.remove('active'));
     }
 
     /**
@@ -166,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetView();
         setTableHeaders('classification');
         currentSeasonDisplay.textContent = year;
+        lastClassificationYear = year; // Guarda este año para volver atrás
 
         const classification = getClassificationData(year);
         pilotsClassificationBody.innerHTML = '';
@@ -203,6 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetView();
         setTableHeaders('wdc');
         currentSeasonDisplay.textContent = '🏆 Pilotos con más títulos (WDC)';
+        createBackButton(loadClassification, lastClassificationYear); // Añade el botón de atrás
         
         historicalData.wdcPilots.forEach((data, index) => {
             const row = document.createElement('tr');
@@ -227,6 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetView();
         setTableHeaders('wcc');
         currentSeasonDisplay.textContent = '🏭 Equipos con más títulos (WCC)';
+        createBackButton(loadClassification, lastClassificationYear); // Añade el botón de atrás
 
         historicalData.wdcTeams.forEach((data, index) => {
             const row = document.createElement('tr');
@@ -250,11 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function loadTeamsByYear(year) {
         
-        // Si el selector no está visible, lo cargamos primero
-        if (currentView !== 'teams') {
-            loadTeamSelector(); 
-        }
-
         const data = getClassificationData(year).filter(p => p.equipo);
         setTableHeaders('teams');
         currentSeasonDisplay.textContent = `🏎️ Alineación de Equipos ${year}`;
@@ -279,7 +298,6 @@ document.addEventListener('DOMContentLoaded', () => {
         teamsMap.forEach((pilots, teamName) => {
             const row = document.createElement('tr');
             
-            // Asume que los 2 primeros son los principales, el resto son reservas/terceros
             const [p1 = 'N/A', p2 = 'N/A', ...extras] = pilots;
 
             row.innerHTML = `
@@ -293,18 +311,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     /**
-     * Crea y muestra el selector de años para la vista de equipos.
+     * Prepara la vista para seleccionar el año de equipos y carga los botones de año.
      */
     function loadTeamSelector() {
         resetView();
         setTableHeaders('teams'); 
         currentSeasonDisplay.textContent = 'Selecciona una temporada para ver los equipos y pilotos:';
+        createBackButton(loadClassification, lastClassificationYear); // Añade el botón de atrás
         
         // Activa el botón de estadísticas principal
         document.querySelector(`.stat-btn[data-stat="team-pilots"]`)?.classList.add('active');
 
 
-        // Crea un nuevo contenedor de botones debajo
+        // Crea el nuevo contenedor de botones debajo
         const selectorDiv = document.createElement('div');
         selectorDiv.id = 'secondary-selector';
         selectorDiv.className = 'button-group';
@@ -315,7 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Crea los botones de año
         availableYears.forEach(year => {
             const button = document.createElement('button');
-            button.className = 'season-btn'; // Reutilizamos el estilo del botón de temporada
+            button.className = 'season-btn'; 
             button.textContent = year;
             button.dataset.year = year;
             
@@ -326,8 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
             selectorDiv.appendChild(button);
         });
         
-        // Borramos el cuerpo de la tabla para que solo se vea el selector
-        pilotsClassificationBody.innerHTML = `<tr><td colspan="4">Utiliza los botones de temporada de arriba para ver la alineación.</td></tr>`;
+        // Carga la temporada más reciente al entrar por primera vez
+        loadTeamsByYear(END_YEAR);
     }
 
 
